@@ -1,0 +1,1005 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     50584,        996]
+NotebookOptionsPosition[     49672,        962]
+NotebookOutlinePosition[     50018,        977]
+CellTagsIndexPosition[     49975,        974]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{"Clear", "[", "a", "]"}]], "Input",
+ CellChangeTimes->{{3.6235953044619637`*^9, 3.623595306956106*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"encrypt", "[", 
+   RowBox[{"n_", ",", "string_"}], "]"}], ":=", 
+  RowBox[{"(", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"encryption", "=", 
+     RowBox[{"RandomInteger", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1000"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"n", ",", "n"}], "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"stringtrans", "=", 
+     RowBox[{"ToCharacterCode", "[", "string", "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"For", "[", 
+     RowBox[{
+      RowBox[{"i", "=", "0"}], ",", 
+      RowBox[{
+       RowBox[{"Mod", "[", 
+        RowBox[{
+         RowBox[{"Length", "[", "stringtrans", "]"}], ",", "n"}], "]"}], 
+       "\[NotEqual]", " ", "0"}], ",", 
+      RowBox[{"i", "++"}], ",", 
+      RowBox[{"stringtrans", "=", 
+       RowBox[{"PadRight", "[", 
+        RowBox[{
+         RowBox[{"ToCharacterCode", "[", "string", "]"}], ",", 
+         RowBox[{"i", "+", 
+          RowBox[{"StringLength", "[", "string", "]"}]}], ",", "32"}], 
+        "]"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"stringtrans1", "=", 
+     RowBox[{"Transpose", "[", 
+      RowBox[{"Partition", "[", 
+       RowBox[{"stringtrans", ",", "n"}], "]"}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"estring", "=", 
+     RowBox[{"Transpose", "[", 
+      RowBox[{
+       RowBox[{"Mod", "[", 
+        RowBox[{
+         RowBox[{"encryption", ".", 
+          RowBox[{"(", 
+           RowBox[{"stringtrans1", "-", "32"}], ")"}]}], ",", "97"}], "]"}], 
+       "+", "32"}], "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"estringtext", "=", 
+     RowBox[{"FromCharacterCode", "[", 
+      RowBox[{"Flatten", "[", "estring", "]"}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"mariokey", "=", 
+     RowBox[{
+     "Import", "[", 
+      "\"\<http://img4.wikia.nocookie.net/__cb20060207165037/uncyclopedia/\
+images/archive/4/44/20061003200039!White_square.png\>\"", "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"squarekey", "=", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"Cases", "[", 
+        RowBox[{
+         RowBox[{"InputForm", "[", 
+          RowBox[{"Rasterize", "[", "mariokey", "]"}], "]"}], ",", 
+         RowBox[{"Raster", "[", "___", "]"}], ",", "Infinity"}], "]"}], "[", 
+       RowBox[{"[", 
+        RowBox[{"1", ",", "1"}], "]"}], "]"}], ")"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"squarekey1", "=", "squarekey"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"replaceskey", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"squarekey", "[", 
+         RowBox[{"[", 
+          RowBox[{
+           RowBox[{"85", "+", "i"}], ",", 
+           RowBox[{"85", "+", "j"}]}], "]"}], "]"}], ")"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "0", ",", 
+         RowBox[{"n", "-", "1"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"j", ",", "0", ",", 
+         RowBox[{"n", "-", "1"}]}], "}"}]}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"replaceskey1", "=", 
+     RowBox[{"Flatten", "[", "replaceskey", "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"ethree", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"3", "n1"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"n1", ",", "1", ",", 
+         RowBox[{"n", "^", "2"}], ",", "1"}], "}"}]}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"replaceskey1", "[", 
+      RowBox[{"[", "ethree", "]"}], "]"}], "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Flatten", "[", "encryption", "]"}], "[", 
+         RowBox[{"[", "i1", "]"}], "]"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i1", ",", "1", ",", 
+         RowBox[{"n", "^", "2"}], ",", "1"}], "}"}]}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"ereplace", "=", 
+     RowBox[{"Partition", "[", 
+      RowBox[{
+       RowBox[{"Partition", "[", 
+        RowBox[{
+         RowBox[{"Flatten", "[", "replaceskey1", "]"}], ",", "3"}], "]"}], 
+       ",", "n"}], "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"list", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{"n1", ",", 
+       RowBox[{"{", 
+        RowBox[{"n1", ",", "85", ",", 
+         RowBox[{"85", "+", 
+          RowBox[{"(", 
+           RowBox[{"n", "-", "1"}], ")"}]}], ",", "1"}], "}"}]}], "]"}]}], 
+    ";", "\[IndentingNewLine]", 
+    RowBox[{"For", "[", 
+     RowBox[{
+      RowBox[{"i1", "=", "0"}], ",", 
+      RowBox[{"i1", "<", "n"}], ",", 
+      RowBox[{"i1", "++"}], ",", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"squarekey1", "[", 
+         RowBox[{"[", 
+          RowBox[{
+           RowBox[{"85", "+", "i1"}], ",", "list"}], "]"}], "]"}], "=", 
+        RowBox[{"ereplace", "[", 
+         RowBox[{"[", 
+          RowBox[{"i1", "+", "1"}], "]"}], "]"}]}], ")"}]}], "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"Graphics", "[", 
+      RowBox[{
+       RowBox[{"Raster", "[", 
+        RowBox[{"squarekey1", ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"256", ",", "256"}], "}"}]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"0", ",", "255"}], "}"}], ",", 
+         RowBox[{"ColorFunction", "\[Rule]", "RGBColor"}]}], "]"}], ",", 
+       RowBox[{"ImageSize", "\[Rule]", "Tiny"}]}], "]"}], 
+     "\[IndentingNewLine]", "estringtext"}]}], "\[IndentingNewLine]", 
+   ")"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"decrypt", "[", 
+   RowBox[{"s_", ",", "msg_", ",", "img_"}], "]"}], ":=", 
+  RowBox[{"(", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"eimg", "=", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"Cases", "[", 
+        RowBox[{
+         RowBox[{"InputForm", "[", "img", "]"}], ",", 
+         RowBox[{"Raster", "[", "___", "]"}], ",", "Infinity"}], "]"}], "[", 
+       RowBox[{"[", 
+        RowBox[{"1", ",", "1"}], "]"}], "]"}], ")"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"erkey", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"eimg", "[", 
+         RowBox[{"[", 
+          RowBox[{
+           RowBox[{"85", "+", "i2"}], ",", 
+           RowBox[{"85", "+", "j2"}]}], "]"}], "]"}], ")"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i2", ",", "0", ",", 
+         RowBox[{"s", "-", "1"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"j2", ",", "0", ",", 
+         RowBox[{"s", "-", "1"}]}], "}"}]}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"encryption1", "=", 
+     RowBox[{"Partition", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Flatten", "[", 
+         RowBox[{"erkey", ",", "1"}], "]"}], "[", 
+        RowBox[{"[", 
+         RowBox[{"All", ",", "3"}], "]"}], "]"}], ",", "s"}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"stringtrans2", "=", 
+     RowBox[{"Transpose", "[", 
+      RowBox[{"Partition", "[", 
+       RowBox[{
+        RowBox[{"ToCharacterCode", "[", "msg", "]"}], ",", "s"}], "]"}], 
+      "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"g", ",", 
+       RowBox[{"{", 
+        RowBox[{"a", ",", "b"}], "}"}]}], "}"}], "=", 
+     RowBox[{"ExtendedGCD", "[", 
+      RowBox[{
+       RowBox[{"Abs", "[", 
+        RowBox[{"Det", "[", "encryption1", "]"}], "]"}], ",", "97"}], "]"}]}],
+     ";", "\[IndentingNewLine]", 
+    RowBox[{"dkey", "=", 
+     RowBox[{"Mod", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Mod", "[", 
+         RowBox[{"a", ",", "97"}], "]"}], "*", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"Det", "[", "encryption1", "]"}], "/", 
+            RowBox[{"Abs", "[", 
+             RowBox[{"Det", "[", "encryption1", "]"}], "]"}]}], ")"}], "*", 
+          RowBox[{"Det", "[", "encryption1", "]"}], "*", 
+          RowBox[{"Inverse", "[", "encryption1", "]"}]}], ")"}]}], ",", 
+       "97"}], "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"txt", "=", 
+     RowBox[{"Transpose", "[", 
+      RowBox[{
+       RowBox[{"Mod", "[", 
+        RowBox[{
+         RowBox[{"dkey", ".", 
+          RowBox[{"(", 
+           RowBox[{"stringtrans2", "-", "32"}], ")"}]}], ",", "97"}], "]"}], 
+       "+", "32"}], "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"FromCharacterCode", "[", 
+     RowBox[{"Flatten", "[", "txt", "]"}], "]"}]}], "\[IndentingNewLine]", 
+   ")"}]}]}], "Input",
+ CellChangeTimes->{{3.6228169024411235`*^9, 3.6228169033531756`*^9}, {
+   3.6228169948094068`*^9, 3.6228169997286882`*^9}, {3.622817063609342*^9, 
+   3.6228171735176287`*^9}, {3.6228172129628844`*^9, 
+   3.6228172320269747`*^9}, {3.6228172933034797`*^9, 
+   3.6228172984747753`*^9}, {3.6228173425452957`*^9, 
+   3.6228173789543786`*^9}, {3.622817474296832*^9, 3.6228174872915754`*^9}, {
+   3.622817697140578*^9, 3.622817810431058*^9}, {3.6228178674703197`*^9, 
+   3.6228178676373296`*^9}, {3.622817930257911*^9, 3.6228179353082*^9}, 
+   3.6228192648972483`*^9, {3.6229884456740637`*^9, 3.622988479306988*^9}, {
+   3.6229885809828033`*^9, 3.6229885841909866`*^9}, {3.6229902227047043`*^9, 
+   3.6229902793739457`*^9}, {3.6229903131658783`*^9, 3.622990329054787*^9}, {
+   3.6229904035320473`*^9, 3.6229904255673075`*^9}, {3.6229906330921774`*^9, 
+   3.6229906637809324`*^9}, {3.6229906958877687`*^9, 
+   3.6229906999490013`*^9}, {3.6229910599385915`*^9, 3.622991070359187*^9}, {
+   3.622991444259573*^9, 3.6229915133905277`*^9}, {3.62299159561023*^9, 
+   3.6229915958832455`*^9}, {3.6229918201890755`*^9, 3.622991892342202*^9}, {
+   3.6229926049159594`*^9, 3.622992630401417*^9}, {3.6229927025115414`*^9, 
+   3.6229927138041873`*^9}, {3.622992814422942*^9, 3.6229928220523787`*^9}, {
+   3.6230729071249194`*^9, 3.623072908080974*^9}, {3.6230730470779247`*^9, 
+   3.6230730471699295`*^9}, {3.623073597803424*^9, 3.6230736143293695`*^9}, {
+   3.6230736577028503`*^9, 3.6230736584258914`*^9}, 3.6231037036463537`*^9, {
+   3.623103940055876*^9, 3.6231039407079134`*^9}, {3.623107241222692*^9, 
+   3.6231072476670604`*^9}, {3.6231094849360247`*^9, 3.623109506720271*^9}, {
+   3.6231100542585883`*^9, 3.623110118135242*^9}, {3.6231101696151867`*^9, 
+   3.6231101705582404`*^9}, {3.62311110574473*^9, 3.6231111093019333`*^9}, {
+   3.6231118021325607`*^9, 3.6231118030366125`*^9}, {3.623593412083726*^9, 
+   3.6235934924113207`*^9}, {3.6235935410621033`*^9, 3.623593555591934*^9}, {
+   3.6235937862901297`*^9, 3.623593840102207*^9}, {3.6235938703689384`*^9, 
+   3.623593904267877*^9}, {3.6235940184904103`*^9, 3.6235940186464195`*^9}, {
+   3.6235941061854267`*^9, 3.6235941375792217`*^9}, {3.6235942626033726`*^9, 
+   3.623594274763068*^9}, {3.6235943072549267`*^9, 3.62359440452649*^9}, {
+   3.62359509809316*^9, 3.6235950982251678`*^9}, {3.623595255953189*^9, 
+   3.6235953709287653`*^9}, {3.6235956736360793`*^9, 
+   3.6235956851547384`*^9}, {3.623595757811894*^9, 3.6235957588759546`*^9}, {
+   3.623595835786354*^9, 3.623595880094888*^9}, 3.6235960471254416`*^9, {
+   3.6235961135222397`*^9, 3.6235961140232677`*^9}, {3.623596264775891*^9, 
+   3.6235962653289223`*^9}, {3.623597208957895*^9, 3.623597215752283*^9}, {
+   3.6235975145303726`*^9, 3.6235975150164003`*^9}, {3.6235976263947706`*^9, 
+   3.623597627696845*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Clear", "[", 
+  RowBox[{"eimg", ",", "erkey"}], "]"}]], "Input",
+ CellChangeTimes->{{3.6235957375697365`*^9, 3.6235957450821657`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"encrypt", "[", 
+  RowBox[{"30", ",", "\"\<I love you. <3\>\""}], "]"}]], "Input",
+ CellChangeTimes->{{3.6231111591007814`*^9, 3.623111174928687*^9}, {
+  3.6231112714622087`*^9, 3.6231112950045547`*^9}, {3.6231118258309164`*^9, 
+  3.623111832137277*^9}, {3.6231119263996687`*^9, 3.62311193446813*^9}, {
+  3.623112023300211*^9, 3.623112024107257*^9}, {3.623154873502033*^9, 
+  3.623154916365485*^9}, {3.623592960347888*^9, 3.6235929649211497`*^9}, {
+  3.6235958037175198`*^9, 3.623595810408902*^9}, {3.6235961572307396`*^9, 
+  3.6235961573827477`*^9}, {3.623596395108345*^9, 3.6235963990645714`*^9}},
+ FontSize->14],
+
+Cell[BoxData[
+ RowBox[{"\<\"+DT3,ItBuknbTj~8;5e5<8PejU9:D(\"\>", " ", 
+  GraphicsBox[RasterBox[CompressedData["
+1:eJzs3VnQ31V9x/FsCBSy0NIBWQsphhbiWDSAgCJCwBidABVSIksC2lgtiwgh
+lbSETUKBioGAArJoFAOEsITE0YBVxDIKI0uhggTHAC22VKFSZBnTTqcXvC/y
+zDzzXCXO6+I185nvfM/393+Sy3PmnJ2OP/nwk0YOGzZs1Yj/93/5fwAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAOB30KYj3synpD429R1GvpnPTM+96dk7PbslX5D+x4a/mdek5/HkYcm7
+Z/7azLk4Pcdn5vL0jOh3M2f39L+afFR6nkiem54ZmXlV6uOSr8hv+0XmAAAA
+AAAAAACDd2ryHdmLPyB78YuyX//29ExKHp2e9yWfl/zOfOuczJ+d+oOZOSX5
+xfQ8m7WrU5+Xb30xa49LfjT5J5nzcNbOT89m6Tk+eav09+zEycmTnWcAAAAA
+AAAAgCHZN3v322b/fXHq30r9tOR3J69J/mTmP599/39PvWcG7kv+TPqvS31J
+6l/pnRKpr039yOR5+e4zvQtixLrz+My8MvmerL255zGSR6VnvPMMAAAAAAAA
+ADAk304+M/vv2yVPz57+zPT/PPUVPeeQnvtTH5H+dycvzRmAywe4P+Gk5M3S
+szjfej49b0++Nf3XJN+YteOS+5bES8mfSM/nUh+Vbz2Wnt5ZAQAAAAAAAAAM
+3hPZc78o+/IbZd9/t+S5yZcl75E512b+qenZNXllvrVz+j+dOWvSf0byv6bn
+0KxdmvpV6X8gPb2r4a/zGyYm94zHf2bmBzJz7+Rp6e8dF5evB/+/AAAAAAAA
+ALAhWtQzAMm9e2Fy9u6/nnxEerbIzGGp75n9/VdSfyb9v+k9DKk/nfomWXt/
+8iH5PcOT/yBzzk7eOD29j2JVZvYNi1VZOyH970n96tQPTf6s+xkAAAAAAAAA
+YEgWJl+S/ffHkiemZ23y/tm7n5R8W/KpmfODnCVYlfzhAd6teCT5t+np+xdn
+9V6FzJzccwX5zb134tHkZcnbJ6/Jt6YkP5KZM5MnDnBGAgAAAAAAAAAYvNuz
+5/7D5KXZl38t/YuTe37glOTbMqdvOpyctaPTv3nyNckfz9qZWXtgevZJHpZ8
+SH7DAan/KDOfyMxRqS/I2kvTc2fmvJGeh5KXpOfXzjMAAAAAAAAAwJCsyJ77
+nOzFP5/8ZHomJN+cOQflPMDC5CvTPzr5vszfNnMuSn3rzPlyeu5Ovjczx2bt
+ghHrnnlw8vL0bJo5yzJ/ZfINWdu/sf9WN6S+OnUAAAAAAAAAYPDmZR//ruzF
+D0/PXunZNnle+idk735k6t/MnD1T3yFzzkv9uuT39lxE5owb4BzCt5JfTF6Q
+37Z75tyeOfNSv7tnNtLT8w/9zX2f4uW+N+E8AwAAAAAAAAAMyd9lz31K6o9k
+T/+Ps0f//fT0zoQ30nNi6pNSH5a8ReYfmvrU1N+Z+lsz8/D0bJOeU1KflL/r
+zqz9TXoeSO7f9bPM3Cr13v/wSPJv039FZu6YOgAAAAAAAAAwePdnz/3U1B9O
+fW727udnv358+m9L/+z0PJmeq5O/kZlnJb+atU+n/ousXdbzFclrk/8j/dtk
+5jdSvyO55xO+kPqnUt83c85IPjD5z9N/jPsZAAAAAAAAAGBIts9e/NeTv52z
+AdOyL79fct+SWJa1xybvmnxh+tcm75uZM/Pdo3sOIXls1vYsxLzkL6Zn08yc
+lbxJevZJXp5v7ZK8Ovm/MueWfPe55D3dzwAAAAAAAAAAQ3JQ9ugvT733Emye
+nq1T/2Dy9dm7v2yAux1uTH463/ps8tFZ+3pzenqe4aH0PJffeWvqI5PPz9oP
+pf+I1Ff3/EbWTkleMcA7HUtTn7ge/P8CAAAAAAAAwIbojezRH5W9+F+m557k
+Y5JPTH/fqpiQmQ+m56nUD0v/svQsTv2V3hGR3LMHdyf3PYvJyRdl/odSf0fq
+NyXvmJ6zk7+QnsdTX5i8MmckJnhvAgAAAAAAAACG5JXsv3ff/+XUH0reMfnX
+OWOwJDPPzZwDkzdNnpb+YZnzavL0Ad6emJ/8aHruHeA+h9dSvyBr+97EivR8
+J7nvUMzvuYvM6V0NX029d18AAAAAAAAAAIN3XvLW2X+/PnlM9uuvzF7/RsmX
+ZM4t6f985myUnp6LeCFzfj7AGYk5ySdk/qTULxu57t/cdyV6LuLy5L55cXLy
+Ocn9e0cnf7r3VKR+rPsZAAAAAAAAAGBIdsue/tzew5C9+BnJn0vPT1NflJnH
+Jo9Izz7Z6z89eV76J6b/xnzrD9OzcdZuOcBdDQt7J0NmPpz+L6Vnr9QfSP8T
+qQ9P7nsT/e6Y1Ke6nwEAAAAAAAAAhqR3EXwk+/JHZk//Y8mfSv+49P9D6s8k
+912JLdP/ZPb6v5merdLTswSzUt8hv+fFrN01PWf0zYvMGZX+sT0Lkdw3Mo7v
+/RLJP0p+Lv3PjVh3PwAAAAAAAAAweH+V/fdLU+/ZgJNS3753JqTn3uzpf3T4
+uvtPSP9T6Z/fOxz6tkW++/cD3LdwQernpn/n9EzMbxifnrOTr8ic7yY/mLx1
++kdk5vn51rmp7+I8AwAAAAAAAAAMyWvJs7Ivv0P28cen/rXkH2dt36f4Qeq/
+ypyb0vNP6RnT9yzSv116Pprc8wNnpX916kfmLMFOyftnzlsG+Nv3S3/vo/h+
+8sH57mnp7xmJvpEBAAAAAAAAAAzea9mL/+/s0V+XfEr2+pf3LoLM+dPM+XHW
+Lkx9m/Rfkzm3p+eq5Msy54XU90iekZmbZOY5qS/JnL2SpydvkbWzMr/nK/r7
+T0z/yvT3/MZ27mcAAAAAAAAAgCG5MPvv16b+j6kvSH1x9vFfSs8hqT+U+t7Z
+05+QngXpeTk9zyZ/Od/9Xtb+MmtHpudn6XlX5lydPLVnG7L2A1n7luSbsvbY
+1K9K/lXmvC39LzjPAAAAAAAAAABDsjx77j0PcFf2/Q9KzyfSc0nm/En6L+3b
+DT0vkTmXpL5P+lclL0menG+9mjmLMuf9qU9P7psaF6T/35LHpH9E8nH5DXcn
+v561U9O/Mt+asB78/wIAAAAAAADAhui27MX37MG49NyS+papz8/aY7LXPyf9
+f5H6W1Ofkfy3A/y2szP/z1Lvexabp+fM1A/Mdz+efG165qb+z8l35FuPpf+o
+9GyX+o7pfyC/52/SDwAAAAAAAAAM3gHZc5+dPfpVya/0vYbkMen5TuY8nfk/
+TH3j9O+U/Pn0vCf1C/OtjdLzVOb3PMaeWXtYem5IvjBzdupvzpwTBngLo2ce
+dkl9VOZflLUnrQf/vwAAAAAAAACwITo8+/L/kv3607Mvf0TqJyaPSp6emSuS
+l2T+86n3/oe+HzEt+bT0jEn+aX7bvJ4f6LmL9H8w+Sfp+VrywuSXknfP37iw
+OTP7xsQ9+T37rwf/vwAAAAAAAACwIdoteXb2649OXpqev8x+/THJi5KnZu37
+cjbgK8kz03996t/N2tdTP6xvN2TtnPy229P/eHrelbUXp3516melfnDmvCN5
+Qr711fQflJ4707NH6gAAAAAAAADA4PWug2uyv78me/GfGeDcwnszZ1rq+yWP
+Tt4sM3tW4fTMmdEzBqmfn/73p748809PT9+keDb1KzL/uKz9Xnp+L3lp+vdK
+viNr70r/Pb3/oWcwAAAAAAAAAIBBuzV77vum/vup35f6rqnfnD39L6U+J/nc
+rJ2dvf6PZO2U1D+WPCtz+qbD/PScnXrPD3wyeWx6ei7ihtQntJ7fdnHq12bm
+zsl3Jh+Z/Efrwf8vAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwv+3DAQkAAACAoP+v
++xEKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq6nM7X0s/
+    "], {{0, 0}, {256, 256}}, {0, 255},
+    ColorFunction->RGBColor],
+   ImageSize->{146., Automatic}]}]], "Output",
+ CellChangeTimes->{3.6235976561304717`*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"\"\<H/&=G|^oroc\\\\/c^dXtP.x&.T8J1aYV\>\"", " ", 
+  GraphicsBox[RasterBox[CompressedData["
+1:eJzs3VnQ31V9x/FsCBSy0NIBWQsphhbiWDSAgCJCwBidABVSIksC2lgtiwgh
+lbSETUKBioGAArJoFAOEsITE0YBVxDIKI0uhggTHAC22VKFSZBnTTqcXvC/y
+zDzzXCXO6+I185nvfM/393+Sy3PmnJ2OP/nwk0YOGzZs1Yj/93/5fwAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAOB30KYj3synpD429R1GvpnPTM+96dk7PbslX5D+x4a/mdek5/HkYcm7
+Z/7azLk4Pcdn5vL0jOh3M2f39L+afFR6nkiem54ZmXlV6uOSr8hv+0XmAAAA
+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
+Lkx9m/Rfkzm3p+eq5Msy54XU90iekZmbZOY5qS/JnL2SpydvkbWzMr/nK/r7
+T0z/yvT3/MZ27mcAAAAAAAAAgCG5MPvv16b+j6kvSH1x9vFfSs8hqT+U+t7Z
+05+QngXpeTk9zyZ/Od/9Xtb+MmtHpudn6XlX5lydPLVnG7L2A1n7luSbsvbY
+1K9K/lXmvC39LzjPAAAAAAAAAABDsjx77j0PcFf2/Q9KzyfSc0nm/En6L+3b
+DT0vkTmXpL5P+lclL0menG+9mjmLMuf9qU9P7psaF6T/35LHpH9E8nH5DXcn
+v561U9O/Mt+asB78/wIAAAAAAADAhui27MX37MG49NyS+papz8/aY7LXPyf9
+f5H6W1Ofkfy3A/y2szP/z1Lvexabp+fM1A/Mdz+efG165qb+z8l35FuPpf+o
+9GyX+o7pfyC/52/SDwAAAAAAAAAM3gHZc5+dPfpVya/0vYbkMen5TuY8nfk/
+TH3j9O+U/Pn0vCf1C/OtjdLzVOb3PMaeWXtYem5IvjBzdupvzpwTBngLo2ce
+dkl9VOZflLUnrQf/vwAAAAAAAACwITo8+/L/kv3607Mvf0TqJyaPSp6emSuS
+l2T+86n3/oe+HzEt+bT0jEn+aX7bvJ4f6LmL9H8w+Sfp+VrywuSXknfP37iw
+OTP7xsQ9+T37rwf/vwAAAAAAAACwIdoteXb2649OXpqev8x+/THJi5KnZu37
+cjbgK8kz03996t/N2tdTP6xvN2TtnPy229P/eHrelbUXp3516melfnDmvCN5
+Qr711fQflJ4707NH6gAAAAAAAADA4PWug2uyv78me/GfGeDcwnszZ1rq+yWP
+Tt4sM3tW4fTMmdEzBqmfn/73p748809PT9+keDb1KzL/uKz9Xnp+L3lp+vdK
+viNr70r/Pb3/oWcwAAAAAAAAAIBBuzV77vum/vup35f6rqnfnD39L6U+J/nc
+rJ2dvf6PZO2U1D+WPCtz+qbD/PScnXrPD3wyeWx6ei7ihtQntJ7fdnHq12bm
+zsl3Jh+Z/Efrwf8vAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwv+3DAQkAAACAoP+v
++xEKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq6nM7X0s/
+    "], {{0, 0}, {256, 256}}, {0, 255},
+    ColorFunction->RGBColor],
+   ImageSize->{93., Automatic}]}]], "Input",
+ CellChangeTimes->{
+  3.6235975538936243`*^9, {3.6235976713583426`*^9, 3.6235976720923843`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"decrypt", "[", 
+  RowBox[{"30", ",", "\"\<+DT3,ItBuknbTj~8;5e5<8PejU9:D(\>\"", ",", 
+   GraphicsBox[RasterBox[CompressedData["
+1:eJzs3VnQ31V9x/FsCBSy0NIBWQsphhbiWDSAgCJCwBidABVSIksC2lgtiwgh
+lbSETUKBioGAArJoFAOEsITE0YBVxDIKI0uhggTHAC22VKFSZBnTTqcXvC/y
+zDzzXCXO6+I185nvfM/393+Sy3PmnJ2OP/nwk0YOGzZs1Yj/93/5fwAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAOB30KYj3synpD429R1GvpnPTM+96dk7PbslX5D+x4a/mdek5/HkYcm7
+Z/7azLk4Pcdn5vL0jOh3M2f39L+afFR6nkiem54ZmXlV6uOSr8hv+0XmAAAA
+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
+Lkx9m/Rfkzm3p+eq5Msy54XU90iekZmbZOY5qS/JnL2SpydvkbWzMr/nK/r7
+T0z/yvT3/MZ27mcAAAAAAAAAgCG5MPvv16b+j6kvSH1x9vFfSs8hqT+U+t7Z
+05+QngXpeTk9zyZ/Od/9Xtb+MmtHpudn6XlX5lydPLVnG7L2A1n7luSbsvbY
+1K9K/lXmvC39LzjPAAAAAAAAAABDsjx77j0PcFf2/Q9KzyfSc0nm/En6L+3b
+DT0vkTmXpL5P+lclL0menG+9mjmLMuf9qU9P7psaF6T/35LHpH9E8nH5DXcn
+v561U9O/Mt+asB78/wIAAAAAAADAhui27MX37MG49NyS+papz8/aY7LXPyf9
+f5H6W1Ofkfy3A/y2szP/z1Lvexabp+fM1A/Mdz+efG165qb+z8l35FuPpf+o
+9GyX+o7pfyC/52/SDwAAAAAAAAAM3gHZc5+dPfpVya/0vYbkMen5TuY8nfk/
+TH3j9O+U/Pn0vCf1C/OtjdLzVOb3PMaeWXtYem5IvjBzdupvzpwTBngLo2ce
+dkl9VOZflLUnrQf/vwAAAAAAAACwITo8+/L/kv3607Mvf0TqJyaPSp6emSuS
+l2T+86n3/oe+HzEt+bT0jEn+aX7bvJ4f6LmL9H8w+Sfp+VrywuSXknfP37iw
+OTP7xsQ9+T37rwf/vwAAAAAAAACwIdoteXb2649OXpqev8x+/THJi5KnZu37
+cjbgK8kz03996t/N2tdTP6xvN2TtnPy229P/eHrelbUXp3516melfnDmvCN5
+Qr711fQflJ4707NH6gAAAAAAAADA4PWug2uyv78me/GfGeDcwnszZ1rq+yWP
+Tt4sM3tW4fTMmdEzBqmfn/73p748809PT9+keDb1KzL/uKz9Xnp+L3lp+vdK
+viNr70r/Pb3/oWcwAAAAAAAAAIBBuzV77vum/vup35f6rqnfnD39L6U+J/nc
+rJ2dvf6PZO2U1D+WPCtz+qbD/PScnXrPD3wyeWx6ei7ihtQntJ7fdnHq12bm
+zsl3Jh+Z/Efrwf8vAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwv+3DAQkAAACAoP+v
++xEKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq6nM7X0s/
+     "], {{0, 0}, {256, 256}}, {0, 255},
+     ColorFunction->RGBColor],
+    ImageSize->{93., Automatic}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.623595396476227*^9, 3.6235954374755716`*^9}, {
+  3.623595697688455*^9, 3.6235957090791063`*^9}, {3.623595770173601*^9, 
+  3.623595777586025*^9}, {3.6235959077744713`*^9, 3.623595913293787*^9}, {
+  3.623596066191532*^9, 3.623596071148816*^9}, {3.623596132184307*^9, 
+  3.6235961376816216`*^9}, {3.623596168976411*^9, 3.623596180373063*^9}, {
+  3.6235962806067963`*^9, 3.6235962850180483`*^9}, {3.6235964080870876`*^9, 
+  3.6235964127353535`*^9}, {3.6235972905535617`*^9, 3.623597297116937*^9}, {
+  3.6235975664413414`*^9, 3.623597587148526*^9}, {3.62359768179994*^9, 
+  3.6235976879072895`*^9}}],
+
+Cell[BoxData["\<\"I love you. <3                \"\>"], "Output",
+ CellChangeTimes->{
+  3.6235957103541794`*^9, 3.62359577819406*^9, 3.623595913851819*^9, 
+   3.623596071868857*^9, 3.623596138558672*^9, {3.6235961751217628`*^9, 
+   3.6235961810271006`*^9}, 3.623596285521077*^9, 3.623596413681408*^9, 
+   3.6235972990890503`*^9, {3.6235975694255123`*^9, 3.623597588420599*^9}, 
+   3.6235976890663557`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Length", "[", "encryption1", "]"}]], "Input",
+ CellChangeTimes->{{3.623595930721784*^9, 3.623595933891965*^9}, {
+  3.6235960079792027`*^9, 3.6235960111273828`*^9}}],
+
+Cell[BoxData["15"], "Output",
+ CellChangeTimes->{3.6235959341859818`*^9, 3.6235960114554014`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Length", "[", "encryption", "]"}]], "Input",
+ CellChangeTimes->{{3.623595935911081*^9, 3.6235959419674273`*^9}, {
+  3.623596014543578*^9, 3.6235960196168685`*^9}}],
+
+Cell[BoxData["15"], "Output",
+ CellChangeTimes->{{3.623595938249214*^9, 3.6235959422604437`*^9}, 
+   3.623596020010891*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"Clear", "[", "p", "]"}]], "Input",
+ CellChangeTimes->{{3.62359558028774*^9, 3.6235955821448464`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"p", "[", "img_", "]"}], ":=", 
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{"Cases", "[", 
+     RowBox[{"InputForm", "[", 
+      RowBox[{"img", ",", 
+       RowBox[{"Raster", "[", "___", "]"}], ",", "Infinity"}], "]"}], "]"}], 
+    "[", 
+    RowBox[{"[", 
+     RowBox[{"1", ",", "1"}], "]"}], "]"}], ")"}]}]], "Input",
+ CellChangeTimes->{{3.6235955311259284`*^9, 3.6235955883302*^9}}]
+},
+WindowSize->{1356, 686},
+WindowMargins->{{Automatic, -4}, {Automatic, 0}},
+FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (September 9, 2014)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 126, 2, 31, "Input"],
+Cell[687, 24, 11331, 278, 612, "Input"],
+Cell[12021, 304, 158, 3, 31, "Input"],
+Cell[CellGroupData[{
+Cell[12204, 311, 637, 10, 31, "Input"],
+Cell[12844, 323, 11490, 190, 163, "Output"]
+}, Open  ]],
+Cell[24349, 516, 11544, 191, 110, InheritFromParent],
+Cell[CellGroupData[{
+Cell[35918, 711, 12110, 199, 110, "Input"],
+Cell[48031, 912, 405, 6, 31, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[48473, 923, 188, 3, 31, "Input"],
+Cell[48664, 928, 97, 1, 31, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[48798, 934, 187, 3, 31, "Input"],
+Cell[48988, 939, 123, 2, 31, "Output"]
+}, Open  ]],
+Cell[49126, 944, 125, 2, 31, "Input"],
+Cell[49254, 948, 414, 12, 31, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)
